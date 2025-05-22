@@ -1,0 +1,17 @@
+[Unit]
+Description=Dynamit
+Wants=docker.service network-online.target
+After=docker.service network-online.target
+
+[Service]
+Restart=always
+RestartSec=5
+Type=simple
+TimeoutSec=infinity
+ExecStartPre=-/usr/bin/docker compose -f /home/{{ ansible_user_id }}/tpotce/dynamit-run.yaml --env-file /home/{{ ansible_user_id }}/tpotce/.env --env-file /home/{{ ansible_user_id }}/tpotce/.env_dynamit down -v
+ExecStart=/home/{{ ansible_user_id }}/tpotce/dynamit-start.sh
+ExecStop=/usr/bin/docker compose -f /home/{{ ansible_user_id }}/tpotce/dynamit-run.yaml --env-file /home/{{ ansible_user_id }}/tpotce/.env --env-file /home/{{ ansible_user_id }}/tpotce/.env_dynamit down -v
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
