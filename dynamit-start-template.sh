@@ -75,6 +75,11 @@ docker run --rm \
     dynamit-builder:1.0
 check_command_fail "[dynamit-start.sh] Fatal Error: Failure at dynamit-start container!"
 
+docker compose \
+    -f /home/{{ ansible_user_id }}/dynamit/dynamit-run.yaml \
+    --env-file /home/{{ ansible_user_id }}/dynamit/.env \
+    --env-file /home/{{ ansible_user_id }}/dynamit/.env_dynamit pull
+
 iptables -A INPUT -i ${DYNAMIT_HPOT_INTERFACE} -j DROP 2>/dev/null
 sysctl -w net.ipv4.conf.${DYNAMIT_HPOT_INTERFACE}.arp_ignore=1
 sysctl -w net.ipv4.conf.${DYNAMIT_HPOT_INTERFACE}.arp_filter=1
