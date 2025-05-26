@@ -16,9 +16,9 @@ check_var_empty() {
 }
 
 docker compose \
-    -f /home/{{ ansible_user_id }}/tpotce/dynamit-run.yaml \
-    --env-file /home/{{ ansible_user_id }}/tpotce/.env \
-    --env-file /home/{{ ansible_user_id }}/tpotce/.env_dynamit down
+    -f /home/{{ ansible_user_id }}/dynamit/dynamit-run.yaml \
+    --env-file /home/{{ ansible_user_id }}/dynamit/.env \
+    --env-file /home/{{ ansible_user_id }}/dynamit/.env_dynamit down
 
 sysctl -w net.ipv6.conf.all.disable_ipv6=1
 sysctl -w net.ipv6.conf.default.disable_ipv6=1
@@ -29,7 +29,7 @@ DYNAMIT_SCANHOST_IPADDR=""
 DYNAMIT_MAX_CLUSTER=""
 DYNAMIT_HPOT_HOST_RATIO=""
 DYNAMIT_NEXT_BUILD=""
-set -a && source /home/{{ ansible_user_id }}/tpotce/.env_dynamit && set +a
+set -a && source /home/{{ ansible_user_id }}/dynamit/.env_dynamit && set +a
 check_var_empty "DYNAMIT_SCANHOST_IPADDR"
 check_var_empty "DYNAMIT_HPOT_SUBNET"
 check_var_empty "DYNAMIT_HPOT_INTERFACE"
@@ -48,9 +48,9 @@ if [[ -n "$DYNAMIT_NEXT_BUILD" && "$(date +%s)" -lt "$DYNAMIT_NEXT_BUILD" ]]; th
     fi
 
     docker compose \
-    -f /home/{{ ansible_user_id }}/tpotce/dynamit-run.yaml \
-    --env-file /home/{{ ansible_user_id }}/tpotce/.env \
-    --env-file /home/{{ ansible_user_id }}/tpotce/.env_dynamit up
+    -f /home/{{ ansible_user_id }}/dynamit/dynamit-run.yaml \
+    --env-file /home/{{ ansible_user_id }}/dynamit/.env \
+    --env-file /home/{{ ansible_user_id }}/dynamit/.env_dynamit up
     check_command_fail "[dynamit-start.sh] Fatal Error: Composing dynamit-run failed!"
     exit 1
 fi
@@ -66,9 +66,9 @@ if ! ip addr show dev "$DYNAMIT_HPOT_INTERFACE" | grep -q 'inet '; then
 fi
 
 docker run --rm \
-    -v /home/{{ ansible_user_id }}/tpotce/dynamit-run.yaml:/dynamit-run.yaml:rw \
-    -v /home/{{ ansible_user_id }}/tpotce/data/:/data/:rw \
-    --env-file /home/{{ ansible_user_id }}/tpotce/.env_dynamit \
+    -v /home/{{ ansible_user_id }}/dynamit/dynamit-run.yaml:/dynamit-run.yaml:rw \
+    -v /home/{{ ansible_user_id }}/dynamit/data/:/data/:rw \
+    --env-file /home/{{ ansible_user_id }}/dynamit/.env_dynamit \
     --network host \
     --cap-add=NET_RAW \
     --cap-add=CHOWN \
@@ -88,11 +88,11 @@ echo "[dynamit-start.sh] Next honeynet rebuild will be done at $(date -d 'next w
 DYNAMIT_NEXT_BUILD=$(date -d "next week" +%s)
 DYNAMIT_NEXT_BUILD_COMMENT=$(date -d "next week")
 sed -i "s|^DYNAMIT_NEXT_BUILD=.*|DYNAMIT_NEXT_BUILD=${DYNAMIT_NEXT_BUILD} #${DYNAMIT_NEXT_BUILD_COMMENT}|"\
-        /home/{{ ansible_user_id }}/tpotce/.env_dynamit
+        /home/{{ ansible_user_id }}/dynamit/.env_dynamit
 
 docker compose \
-    -f /home/{{ ansible_user_id }}/tpotce/dynamit-run.yaml \
-    --env-file /home/{{ ansible_user_id }}/tpotce/.env \
-    --env-file /home/{{ ansible_user_id }}/tpotce/.env_dynamit up
+    -f /home/{{ ansible_user_id }}/dynamit/dynamit-run.yaml \
+    --env-file /home/{{ ansible_user_id }}/dynamit/.env \
+    --env-file /home/{{ ansible_user_id }}/dynamit/.env_dynamit up
 check_command_fail "[dynamit-start.sh] Fatal Error: Composing dynamit-run failed!"
 exit 1

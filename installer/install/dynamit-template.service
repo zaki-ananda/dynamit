@@ -8,9 +8,9 @@ Restart=always
 RestartSec=5
 Type=simple
 TimeoutSec=infinity
-ExecStartPre=-/usr/bin/docker compose -f /home/{{ ansible_user_id }}/tpotce/dynamit-run.yaml --env-file /home/{{ ansible_user_id }}/tpotce/.env --env-file /home/{{ ansible_user_id }}/tpotce/.env_dynamit down -v
-ExecStart=/home/{{ ansible_user_id }}/tpotce/dynamit-start.sh
-ExecStop=/usr/bin/docker compose -f /home/{{ ansible_user_id }}/tpotce/dynamit-run.yaml --env-file /home/{{ ansible_user_id }}/tpotce/.env --env-file /home/{{ ansible_user_id }}/tpotce/.env_dynamit down -v
+ExecStartPre=-/usr/bin/docker compose -f /home/{{ ansible_user_id }}/dynamit/dynamit-run.yaml --env-file /home/{{ ansible_user_id }}/dynamit/.env --env-file /home/{{ ansible_user_id }}/dynamit/.env_dynamit down -v
+ExecStart=/home/{{ ansible_user_id }}/dynamit/dynamit-start.sh
+ExecStop=/usr/bin/docker compose -f /home/{{ ansible_user_id }}/dynamit/dynamit-run.yaml --env-file /home/{{ ansible_user_id }}/dynamit/.env --env-file /home/{{ ansible_user_id }}/dynamit/.env_dynamit down -v
 RemainAfterExit=yes
 
 [Install]

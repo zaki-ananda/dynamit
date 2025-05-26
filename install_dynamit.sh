@@ -2,8 +2,8 @@
 
 myINSTALL_NOTIFICATION="### Now installing required packages ..."
 myUSER=$(whoami)
-myTPOT_CONF_FILE="/home/${myUSER}/tpotce/.env"
-dynamit_CONF_FILE="/home/${myUSER}/tpotce/.env_dynamit"
+myTPOT_CONF_FILE="/home/${myUSER}/dynamit/.env"
+dynamit_CONF_FILE="/home/${myUSER}/dynamit/.env_dynamit"
 myPACKAGES_DEBIAN="ansible apache2-utils cracklib-runtime wget nmap"
 myPACKAGES_FEDORA="ansible cracklib httpd-tools wget nmap"
 myPACKAGES_ROCKY="ansible-core ansible-collection-redhat-rhel_mgmt epel-release cracklib httpd-tools wget nmap"
@@ -287,43 +287,43 @@ fi
 #      echo
 #      echo "### Installing T-Pot Standard / HIVE."
 #      myTPOT_TYPE="HIVE"
-#      cp ${HOME}/tpotce/compose/standard.yml ${HOME}/tpotce/docker-compose.yml
+#      cp ${HOME}/dynamit/compose/standard.yml ${HOME}/dynamit/docker-compose.yml
 #      myINFO=""
 #      break ;;
 #    s|S)
 #      echo
 #      echo "### Installing T-Pot Sensor."
 #      myTPOT_TYPE="SENSOR"
-#      cp ${HOME}/tpotce/compose/sensor.yml ${HOME}/tpotce/docker-compose.yml
+#      cp ${HOME}/dynamit/compose/sensor.yml ${HOME}/dynamit/docker-compose.yml
 #      myINFO="### Make sure to deploy SSH keys to this SENSOR and disable SSH password authentication.
-#### On HIVE run the tpotce/deploy.sh script to join this SENSOR to the HIVE."
+#### On HIVE run the dynamit/deploy.sh script to join this SENSOR to the HIVE."
 #      break ;;
 #    l|L)
 #      echo
 #      echo "### Installing T-Pot LLM."
 #      myTPOT_TYPE="HIVE"
-#      cp ${HOME}/tpotce/compose/llm.yml ${HOME}/tpotce/docker-compose.yml
+#      cp ${HOME}/dynamit/compose/llm.yml ${HOME}/dynamit/docker-compose.yml
 #      myINFO="Make sure to adjust the T-Pot config file (.env) for Ollama / ChatGPT settings."
 #      break ;;
 #    i|I)
 #      echo
 #      echo "### Installing T-Pot Mini."
 #      myTPOT_TYPE="HIVE"
-#      cp ${HOME}/tpotce/compose/mini.yml ${HOME}/tpotce/docker-compose.yml
+#      cp ${HOME}/dynamit/compose/mini.yml ${HOME}/dynamit/docker-compose.yml
 #      myINFO=""
 #      break ;;
 #    m|M)
 #      echo
 #      echo "### Installing T-Pot Mobile."
 #      myTPOT_TYPE="MOBILE"
-#      cp ${HOME}/tpotce/compose/mobile.yml ${HOME}/tpotce/docker-compose.yml
+#      cp ${HOME}/dynamit/compose/mobile.yml ${HOME}/dynamit/docker-compose.yml
 #      myINFO=""
 #      break ;;
 #    t|T)
 #      echo
 #      echo "### Installing T-Pot Tarpit."
 #      myTPOT_TYPE="HIVE"
-#      cp ${HOME}/tpotce/compose/tarpit.yml ${HOME}/tpotce/docker-compose.yml
+#      cp ${HOME}/dynamit/compose/tarpit.yml ${HOME}/dynamit/docker-compose.yml
 #      myINFO=""
 #      break ;;
 #  esac
@@ -402,10 +402,10 @@ sed -i "s|^WEB_USER=.*|WEB_USER=${myWEB_USER_ENC_B64}|" ${myTPOT_CONF_FILE}
 # Pull docker images
 echo "### Now pulling images ..."
 sudo docker compose \
-    -f /home/${myUSER}/tpotce/dynamit-run.yaml \
-    --env-file /home/${myUSER}/tpotce/.env \
-    --env-file /home/${myUSER}/tpotce/.env_dynamit pull
-sudo docker buildx build -t dynamit-builder:1.0 /home/${myUSER}/tpotce/dynamit-builder-image/
+    -f /home/${myUSER}/dynamit/dynamit-run.yaml \
+    --env-file /home/${myUSER}/dynamit/.env \
+    --env-file /home/${myUSER}/dynamit/.env_dynamit pull
+sudo docker buildx build -t dynamit-builder:1.0 /home/${myUSER}/dynamit/dynamit-builder-image/
 echo
 
 

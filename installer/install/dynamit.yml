@@ -747,8 +747,8 @@
 
     - name: Clone / Update T-Pot repository (All)
       git:
-        repo: 'https://github.com/telekom-security/tpotce'
-        dest: '/home/{{ ansible_user_id }}/tpotce/'
+        repo: 'https://github.com/zaki-ananda/dynamit'
+        dest: '/home/{{ ansible_user_id }}/dynamit/'
         version: master
         clone: yes
         update: no
@@ -767,8 +767,8 @@
     - name: Adjusting dynamit-start.sh path reference
       become: true
       ansible.builtin.template:
-        src: '/home/{{ ansible_user_id }}/tpotce/dynamit-start-template.sh'
-        dest: '/home/{{ ansible_user_id }}/tpotce/dynamit-start.sh'
+        src: '/home/{{ ansible_user_id }}/dynamit/dynamit-start-template.sh'
+        dest: '/home/{{ ansible_user_id }}/dynamit/dynamit-start.sh'
         owner: tpot
         group: tpot
         mode: '0774'
@@ -796,7 +796,7 @@
     - name: Install systemd service (All)
       become: true
       ansible.builtin.template:
-        src: '/home/{{ ansible_user_id }}/tpotce/installer/install/dynamit-template.service'
+        src: '/home/{{ ansible_user_id }}/dynamit/installer/install/dynamit-template.service'
         dest: '/etc/systemd/system/dynamit.service'
         owner: root
         group: root
