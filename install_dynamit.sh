@@ -405,7 +405,7 @@ sudo docker compose \
     -f /home/${myUSER}/tpotce/dynamit-run.yaml \
     --env-file /home/${myUSER}/tpotce/.env \
     --env-file /home/${myUSER}/tpotce/.env_dynamit pull
-sudo docker buildx build -t dynamit-start:1.0 /home/${myUSER}/tpotce/dynamit-start-image/
+sudo docker buildx build -t dynamit-builder:1.0 /home/${myUSER}/tpotce/dynamit-builder-image/
 echo
 
 

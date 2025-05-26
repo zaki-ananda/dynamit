@@ -4,6 +4,6 @@ FROM python:3.13.3-alpine
 RUN pip install --no-cache-dir kmedoids==0.5.3.1 numpy==2.2.5 python-libnmap==0.7.3 ruamel.yaml==0.18.10
 RUN apk add --no-cache nmap nmap-scripts
 
-COPY dist/ /dynamit-start/
-WORKDIR /dynamit-start
-CMD ["python3", "-u", "dynamit-start.py"]
+COPY dist/ /dynamit-builder/
+WORKDIR /dynamit-builder
+CMD ["python3", "-u", "dynamit-builder.py"]

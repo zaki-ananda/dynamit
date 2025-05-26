@@ -20,6 +20,9 @@ docker compose \
     --env-file /home/{{ ansible_user_id }}/tpotce/.env \
     --env-file /home/{{ ansible_user_id }}/tpotce/.env_dynamit down
 
+sysctl -w net.ipv6.conf.all.disable_ipv6=1
+sysctl -w net.ipv6.conf.default.disable_ipv6=1
+
 DYNAMIT_HPOT_INTERFACE=""
 DYNAMIT_HPOT_SUBNET=""
 DYNAMIT_SCANHOST_IPADDR=""
@@ -37,6 +40,9 @@ if [[ -n "$DYNAMIT_NEXT_BUILD" && "$(date +%s)" -lt "$DYNAMIT_NEXT_BUILD" ]]; th
     echo "[dynamit-start.sh] Next build time has not been reached. Reusing previous honeynet configuration."
 
     if ip addr show dev "$DYNAMIT_HPOT_INTERFACE" | grep -q 'inet '; then
+	iptables -A INPUT -i ${DYNAMIT_HPOT_INTERFACE} -j DROP 2>/dev/null
+	sysctl -w net.ipv4.conf.${DYNAMIT_HPOT_INTERFACE}.arp_ignore=1
+	sysctl -w net.ipv4.conf.${DYNAMIT_HPOT_INTERFACE}.arp_filter=1
         ip addr del ${DYNAMIT_SCANHOST_IPADDR} dev ${DYNAMIT_HPOT_INTERFACE}
         check_command_fail "[dynamit-start.sh] Fatal Error: Removing IP ${DYNAMIT_SCANHOST_IPADDR} to ${DYNAMIT_HPOT_INTERFACE} failed!"
     fi
@@ -52,6 +58,9 @@ fi
 echo "[dynamit-start.sh] Next build time has been reached. Rebuilding honeynet configuration."
 
 if ! ip addr show dev "$DYNAMIT_HPOT_INTERFACE" | grep -q 'inet '; then
+    iptables -D INPUT -i ${DYNAMIT_HPOT_INTERFACE} -j DROP 2>/dev/null
+    sysctl -w net.ipv4.conf.${DYNAMIT_HPOT_INTERFACE}.arp_ignore=0
+    sysctl -w net.ipv4.conf.${DYNAMIT_HPOT_INTERFACE}.arp_filter=0
     ip addr add ${DYNAMIT_SCANHOST_IPADDR} dev ${DYNAMIT_HPOT_INTERFACE}
     check_command_fail "[dynamit-start.sh] Fatal Error: Assigning IP ${DYNAMIT_SCANHOST_IPADDR} to ${DYNAMIT_HPOT_INTERFACE} failed!"
 fi
@@ -62,11 +71,13 @@ docker run --rm \
     --env-file /home/{{ ansible_user_id }}/tpotce/.env_dynamit \
     --network host \
     --cap-add=NET_RAW \
-    --cap-add=NET_ADMIN \
     --cap-add=CHOWN \
-    dynamit-start:1.0
+    dynamit-builder:1.0
 check_command_fail "[dynamit-start.sh] Fatal Error: Failure at dynamit-start container!"
 
+iptables -A INPUT -i ${DYNAMIT_HPOT_INTERFACE} -j DROP 2>/dev/null
+sysctl -w net.ipv4.conf.${DYNAMIT_HPOT_INTERFACE}.arp_ignore=1
+sysctl -w net.ipv4.conf.${DYNAMIT_HPOT_INTERFACE}.arp_filter=1
 CUR_IP=$(ip -o -f inet addr show "$DYNAMIT_HPOT_INTERFACE" | awk '{print $4}')
 ip addr del ${CUR_IP} dev ${DYNAMIT_HPOT_INTERFACE}
 check_command_fail "[dynamit-start.sh] Fatal Error: Removing IP ${DYNAMIT_SCANHOST_IPADDR} from ${DYNAMIT_HPOT_INTERFACE} failed!"
