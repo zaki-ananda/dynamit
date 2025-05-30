@@ -213,7 +213,7 @@ while true; do
     fi
     dynamit_HONEYINT=${supported_ifaces[$((dynamit_HONEYINT_SELECT-1))]}
     dynamit_HONEYIP=$(ip -o -f inet addr show "$dynamit_HONEYINT" | awk '{print $4}')
-    dynamit_HONEYSUBNET=$(ip route | grep -v '^default' | grep "$dynamit_HONEYINT" | awk '{print $1}')
+    dynamit_HONEYSUBNET=$(ip route | grep -v '^default' | grep "kernel" | grep "$dynamit_HONEYINT" | awk '{print $1}')
     sed -i "s|^DYNAMIT_HPOT_INTERFACE=.*|DYNAMIT_HPOT_INTERFACE=${dynamit_HONEYINT}|" ${dynamit_CONF_FILE}
     sed -i "s|^DYNAMIT_HPOT_SUBNET=.*|DYNAMIT_HPOT_SUBNET=${dynamit_HONEYSUBNET}|" ${dynamit_CONF_FILE}
     sed -i "s|^DYNAMIT_SCANHOST_IPADDR=.*|DYNAMIT_SCANHOST_IPADDR=${dynamit_HONEYIP}|" ${dynamit_CONF_FILE}
