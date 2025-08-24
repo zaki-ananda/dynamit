@@ -91,12 +91,12 @@
     - Different profile will use different honeypot service container, even if they specify the same service. 
     - Each service containers are connected to per-profile Docker internal network, enabling inter-container communication with the corrresponding NGINX instance
     - Overall, each honeypot profile will create an illusion that a single network host (NGINX container) is running multiple services (honeypot service containers)
-  ### 3.7. DYNAMIT from Attacker's perspective (Paper Fig 4)
+  ### 3.7. DYNAMIT from Attacker's perspective
   ![deploy_arch](doc/diag_deployarch.png)
   - An attacker interacting with the system will perceive these honeypot profiles as distinct physical hosts, each running its own services.
   - DYNAMIT host itself is rendered invisible from attacker's perspective, as production-side NIC is left without an assigned IP address, and ARP packets blocked to prevent identification
   - Meanwhile, the each honeypot profiles uses its own MACVLAN interface that "hijacks" DYNAMIT host's physical production-side NIC, in order to send out packets with its own MACVLAN-configured MAC and IP address
-  ### 3.8. DYNAMIT Attack Flow (Paper Fig 5)
+  ### 3.8. DYNAMIT Attack Flow
   ![attacksim](doc/diag_attacksim.png)
   ### 3.9. Routine Honeypot Re-deployment
   - DYNAMIT is configured to rebuild its honeypot profiles once every week, in order to ensure that its profiles can keep up with any changes that might occur within the network
