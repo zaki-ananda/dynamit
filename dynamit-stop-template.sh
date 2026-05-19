@@ -11,5 +11,5 @@ docker ps -aq --filter ancestor=dynamit-builder:1.0 | xargs -r docker rm -f
 iptables -D INPUT -i ${DYNAMIT_HPOT_INTERFACE} -j DROP 2>/dev/null
 sysctl -w net.ipv4.conf.${DYNAMIT_HPOT_INTERFACE}.arp_ignore=0
 sysctl -w net.ipv4.conf.${DYNAMIT_HPOT_INTERFACE}.arp_filter=0
-ip addr add ${DYNAMIT_SCANHOST_IPADDR} dev ${DYNAMIT_HPOT_INTERFACE}
+ip addr add ${DYNAMIT_SCANHOST_IPADDR} dev ${DYNAMIT_HPOT_INTERFACE} 2>/dev/null
 
