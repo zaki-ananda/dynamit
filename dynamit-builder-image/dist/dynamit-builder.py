@@ -32,7 +32,7 @@ print("Running nmap...")
 timeout_counter = 0
 while not network_scan.has_terminated():
     if timeout_counter == 120:
-        print("Exited: Nmap scan took longer than 30 minutes. Please check the network connectivity.")
+        print("Exited: Nmap scan took longer than 120 minutes. Please check the network connectivity.")
         exit(1)
 
     time.sleep(60)
