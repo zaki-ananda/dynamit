@@ -774,6 +774,16 @@
         mode: '0774'
       when: ansible_distribution in ["AlmaLinux", "Debian", "Fedora", "openSUSE Tumbleweed", "Raspbian", "Rocky", "Ubuntu"]
 
+    - name: Adjusting dynamit-stop.sh path reference
+      become: true
+      ansible.builtin.template:
+        src: '/home/{{ ansible_user_id }}/dynamit/dynamit-stop-template.sh'
+        dest: '/home/{{ ansible_user_id }}/dynamit/dynamit-stop.sh'
+        owner: tpot
+        group: tpot
+        mode: '0774'
+      when: ansible_distribution in ["AlmaLinux", "Debian", "Fedora", "openSUSE Tumbleweed", "Raspbian", "Rocky", "Ubuntu"]
+
 
 ########################################
 # T-Pot - Install service and cron job #
