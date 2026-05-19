@@ -68,14 +68,10 @@ for host_id, host in enumerate(active_hosts):
     ## PORT AND SERVICE DATA FORMATTING
     list_service = []
     for service_match in host.services:
-        service_appinfo = service_match.service_dict
-
-        # Filter service data to only get: Generic Service Name. Ex: {'name': 'http'}
-        keys_to_remove = ["servicefp", "conf", "cpelist", "method", "ostype", "hostname", "product", "version", "extrainfo"]
-        for key in keys_to_remove:
-            service_appinfo.pop(key, None)
-
-        # Format port and service data. Ex: {'name': 'msrpc', 'port': '1337/tcp'}
+        service_appinfo = {} # Create new dict for each service found in a host
+        
+        # Format service name and service port. Ex: {'name': 'msrpc', 'port': '1337/tcp'}
+        service_appinfo['name'] = service_match.service
         service_appinfo['port'] = f"{service_match.port}/{service_match.protocol}"
         list_service.append(service_appinfo)
 
