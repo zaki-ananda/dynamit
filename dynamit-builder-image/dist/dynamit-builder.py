@@ -85,7 +85,7 @@ for host_id, host in enumerate(active_hosts):
     }
     cur_dataset.append(host_stddata)
 
-#print(cur_dataset)
+print(cur_dataset)
 
 ####################################
 ### NETWORK CLUSTERING
@@ -139,7 +139,7 @@ for i in range(1, min(max_cluster_amount,host_count)+1): #TODO this is still one
     prev_sill = sill
     prev_cluster = cluster
 
-#print(optimal_cluster)
+print(optimal_cluster)
 
 ####################################
 ### HONEYPOT PROFILE GENERATION
@@ -233,7 +233,7 @@ for i in range(hpot_count):
     hpot_profile.append(cur_profile)
     cur_dataset.append(cur_profile)
 
-#print(hpot_profile)
+print(hpot_profile)
 
 ####################################
 ### HONEYNET COMPOSING
