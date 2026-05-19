@@ -10,7 +10,7 @@ Type=simple
 TimeoutSec=infinity
 ExecStartPre=-/usr/bin/docker compose -f /home/{{ ansible_user_id }}/dynamit/dynamit-run.yaml --env-file /home/{{ ansible_user_id }}/dynamit/.env --env-file /home/{{ ansible_user_id }}/dynamit/.env_dynamit down -v
 ExecStart=/home/{{ ansible_user_id }}/dynamit/dynamit-start.sh
-ExecStop=/usr/bin/docker compose -f /home/{{ ansible_user_id }}/dynamit/dynamit-run.yaml --env-file /home/{{ ansible_user_id }}/dynamit/.env --env-file /home/{{ ansible_user_id }}/dynamit/.env_dynamit down -v
+ExecStop=/home/{{ ansible_user_id }}/dynamit/dynamit-stop.sh
 RemainAfterExit=yes
 
 [Install]
