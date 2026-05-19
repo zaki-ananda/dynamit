@@ -122,7 +122,7 @@
 ## 4.2. Install Instruction
   - Run `git clone https://github.com/zaki-ananda/dynamit` at `/home/<user>` directory
 
-  - Run `dynamit/install_dynamit.sh`
+  - Run `cd dynamit && ./install_dynamit.sh`
   - The install script will search for MACVLAN-capable interface
     - Gotchas
   - Install script will then automatically executes Ansible Playbook. Notably, it will set up a systemd service to automatically run DYNAMIT after boot
