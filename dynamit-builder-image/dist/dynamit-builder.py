@@ -576,7 +576,7 @@ for host_idx, hpot in enumerate(hpot_profile):
 
             # Add ddospot to compose file
             ddospot = {
-                "container_name": "ddospot",
+                "container_name": f"ddospot_host{host_idx+1}",
                 "restart": "always",
                 "depends_on": {"tpotinit": {"condition": "service_healthy"}},
                 "networks": [f"internal_host{host_idx+1}"],
