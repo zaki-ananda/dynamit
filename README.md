@@ -131,17 +131,9 @@
   - Reboot DYNAMIT host
   - Login to DYNAMIT web admin page (from management network) at `https://<dynamit-ip-for-management-network>:64297` and go to Kibana page. Export `dynamit/dashboard.ndjson`. This will add DYNAMIT's custom dashboard for Kibana
   - If access via SSH is necessary, you can access DYNAMIT host at port 64295.
+  - You can start and stop DYNAMIT with the command `sudo systemctl start dynamit` and `sudo systemctl stop dynamit`
 
-# 5. Known Issues
-  - To cleanly stop DYNAMIT from running, you need to run the following
-    * `sudo systemctl stop dynamit`
-
-    * `iptables -D INPUT -i ${DYNAMIT_HPOT_INTERFACE} -j DROP 2>/dev/null`
-    * `sysctl -w net.ipv4.conf.${DYNAMIT_HPOT_INTERFACE}.arp_ignore=0`
-    * `sysctl -w net.ipv4.conf.${DYNAMIT_HPOT_INTERFACE}.arp_filter=0`
-    * `ip addr add ${DYNAMIT_SCANHOST_IPADDR} dev ${DYNAMIT_HPOT_INTERFACE}`
-
-# 6. Credit and Thanks
+# 5. Credit and Thanks
   - Yan Maraden, S.T., M.T., M.Sc as Thesis Supervisor
   - Prof. Dr. Ir. Riri Fitri Sari, M.M., MSc as Thesis Examiner
   - I Gde Dharma Nugraha, S.T., M.T., Ph.D as Thesis Examiner
